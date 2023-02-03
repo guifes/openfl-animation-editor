@@ -1,0 +1,18 @@
+{
+	"search.exclude": {
+		"export/**/*.hx": true
+	},
+	"files.exclude": {
+		"dump": true,
+		"Export": true,
+		"raw_assets": true
+	},
+	"[haxe]": {
+		"editor.formatOnSave": false,
+		"editor.formatOnPaste": true,
+		"editor.codeActionsOnSave": {
+			"source.sortImports": true
+		}
+	},
+	"haxe.enableExtendedIndentation": true
+}

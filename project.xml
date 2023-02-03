@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	
+	<meta title="Flixel Animation Editor" package="com.guifes.flixelanimationeditor" version="1.0.0" company="Guifes" />
+	<app main="Main" path="Export" file="FlixelAnimationEditor" />
+	
+	<!-- ____________________________ Window Settings ___________________________ -->
+	
+	<!--These window settings apply to all targets-->
+	<window width="1024" height="768" fps="60" background="#000000" hardware="true" vsync="false" />
+
+	<!--Web-specific-->
+	<window if="web" />
+	
+	<!--Desktop-specific-->
+	<window if="desktop" fullscreen="false" resizable="true" />
+	
+	<!--Mobile-specific-->
+	<window if="mobile" orientation="portrait" fullscreen="true" width="0" height="0" />
+
+	<!-- _____________________________ Path Settings ____________________________ -->
+
+	<source path="Source" />
+	<assets path="Assets" rename="assets" />
+	
+	<!-- _______________________________ Libraries ______________________________ -->
+
+	<haxelib name="openfl" />
+	<haxelib name="haxeui-core" />
+	<haxelib name="haxeui-openfl" />
+	<haxelib name="haxe-utils" />
+	<haxelib name="json2object" />
+	<haxelib name="hxcpp-debug-server" />
+	<haxelib name="simple" />
+
+	<!-- _______________________________ Haxeflags ______________________________ -->
+
+	<!-- ________________________________ Haxedefs ______________________________ -->
+
+</project>
