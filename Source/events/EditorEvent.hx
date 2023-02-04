@@ -37,9 +37,13 @@ class EditorEvent<T> extends Event
 	public static inline var ANIMATION_CREATED 					= "Model_0";
 	public static inline var ANIMATION_UPDATED 					= "Model_1";
 	public static inline var ANIMATION_SELECTED 				= "Model_2";
-	public static inline var FRAME_ADDED 						= "Model_3";
-	public static inline var MODEL_RESET 						= "Model_4";
-	public static inline var MODEL_LOADED 						= "Model_5";
+	public static inline var TEXTUREPACKER_UPDATED				= "Model 3";
+	public static inline var FRAME_ADDED 						= "Model_4";
+	public static inline var MODEL_RESET 						= "Model_5";
+	public static inline var MODEL_LOADED 						= "Model_6";
+
+	// Runtime Events
+	public static inline var TEXTUREPACKER_FRAMES_LOADED		= "Runtime_0";
 	
 	public var value(default, null): T;
 

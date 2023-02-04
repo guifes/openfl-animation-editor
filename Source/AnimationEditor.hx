@@ -76,8 +76,7 @@ class AnimationEditor
 
 		this.model = parsed;
 		
-		this.eventDispatcher.dispatchEvent(new EditorEvent(EditorEvent.LOAD_TEXTUREPACKER_FILE, this.model.texturePackerJson));
-		this.eventDispatcher.dispatchEvent(new EditorEvent(EditorEvent.MODEL_LOADED, this.model));
+		this.eventDispatcher.dispatchEvent(new EditorEvent(EditorEvent.MODEL_LOADED, this.model.copy()));
 	}
 
 	///////////////////

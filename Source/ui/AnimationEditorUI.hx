@@ -22,7 +22,7 @@ using tink.CoreApi;
 typedef FrameData =
 {
 	frameName: String,
-	sprite:DisplayObject
+	sprite: DisplayObject
 };
 
 @:build(haxe.ui.macros.ComponentMacros.build("assets/xml/main.xml"))
@@ -161,6 +161,8 @@ class AnimationEditorUI extends VBox
 		{
 			selectAnimation(animationList.dataSource.get(0).text, first);
 		}
+
+		this.eventDispatcher.dispatchEvent(new EditorEvent(EditorEvent.LOAD_TEXTUREPACKER_FILE, e.value.texturePackerJson));
 	}
 
 	// function onModelUpdate(e: EditorEvent)
@@ -341,12 +343,6 @@ class AnimationEditorUI extends VBox
 
 		var selectedName = animationList.selectedItem.text;
 		
-		trace(selectedName);
-		trace(event.data);
-		trace(animationList.selectedItem);
-		trace(animationList.selectedIndex);
-		trace("-------");
-
 		this.eventDispatcher.dispatchEvent(new EditorEvent(EditorEvent.SELECT_ANIMATION, selectedName));
 	}
 

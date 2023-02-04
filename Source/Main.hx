@@ -1,11 +1,12 @@
 package;
-import backend.Runtime;
+
 import haxe.ui.Toolkit;
 import openfl.Lib;
 import openfl.display.Sprite;
 import openfl.events.EventDispatcher;
 import simple.SPColor;
 import simple.SPEngine;
+import state.EditorState;
 import ui.AnimationEditorUI;
 
 @:access(simple.SPEngine)
@@ -24,6 +25,6 @@ class Main extends Sprite
 		var _ = new AnimationEditor(eventDispatcher);
 		var ui = new AnimationEditorUI(eventDispatcher);
 		
-		SPEngine.start(this, 500, () -> new Runtime(ui, eventDispatcher));
+		SPEngine.start(this, 500, () -> new EditorState(ui, eventDispatcher));
 	}
 }
