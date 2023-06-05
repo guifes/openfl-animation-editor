@@ -25,13 +25,13 @@ class EditorEvent<T> extends Event
 	public static inline var DELETE_FRAME 						= "UI_5";
 	public static inline var CHANGE_FLIP_X 						= "UI_6";
 	public static inline var CHANGE_FLIP_Y 						= "UI_7";
-	public static inline var CHANGE_FRAMERATE 					= "UI_8";
-	public static inline var CHANGE_LOOPED	 					= "UI_9";
-	public static inline var NEW_ANIMATION 						= "UI_10";
-	public static inline var LOAD_ANIMATION 					= "UI_11";
-	public static inline var SAVE_ANIMATION 					= "UI_12";
-	public static inline var LOAD_TEXTUREPACKER_FILE 			= "UI_13";
-	public static inline var EXIT 								= "UI_14";
+	public static inline var CHANGE_FRAMERATE 					= "UI_6";
+	public static inline var CHANGE_REPEAT_COUNT	 			= "UI_7";
+	public static inline var NEW_ANIMATION 						= "UI_8";
+	public static inline var LOAD_ANIMATION 					= "UI_9";
+	public static inline var SAVE_ANIMATION 					= "UI_10";
+	public static inline var LOAD_TEXTUREPACKER_FILE 			= "UI_11";
+	public static inline var EXIT 								= "UI_12";
 
 	// Model Events
 	public static inline var ANIMATION_CREATED 					= "Model_0";

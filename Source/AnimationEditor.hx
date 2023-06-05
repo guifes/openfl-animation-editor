@@ -32,7 +32,7 @@ class AnimationEditor
 		this.eventDispatcher.addEventListener(EditorEvent.CHANGE_FLIP_X, onChangeFlipX);
 		this.eventDispatcher.addEventListener(EditorEvent.CHANGE_FLIP_Y, onChangeFlipY);
 		this.eventDispatcher.addEventListener(EditorEvent.CHANGE_FRAMERATE, onChangeFrameRate);
-		this.eventDispatcher.addEventListener(EditorEvent.CHANGE_LOOPED, onChangeLooped);
+		this.eventDispatcher.addEventListener(EditorEvent.CHANGE_REPEAT_COUNT, onChangeRepeatCount);
 		this.eventDispatcher.addEventListener(EditorEvent.ADD_FRAME, onAddFrame);
 		this.eventDispatcher.addEventListener(EditorEvent.DELETE_FRAME, onDeleteFrame);
 	}
@@ -136,10 +136,10 @@ class AnimationEditor
 		this.eventDispatcher.dispatchEvent(new EditorEvent(EditorEvent.ANIMATION_UPDATED, new Tuple(e.value.v1, animation)));
 	}
 
-	public function onChangeLooped(e: EditorEvent<Tuple<String, Bool>>)
+	public function onChangeRepeatCount(e: EditorEvent<Tuple<String, Int>>)
 	{
 		var animation = model.animations.get(e.value.v1);
-		animation.looped = e.value.v2;
+		animation.repeatCount = e.value.v2;
 
 		this.eventDispatcher.dispatchEvent(new EditorEvent(EditorEvent.ANIMATION_UPDATED, new Tuple(e.value.v1, animation)));
 	}

@@ -45,7 +45,6 @@ class AnimationEditorUI extends VBox
 
 		// Subscribing to extrenal events
 		this.eventDispatcher.addEventListener(EditorEvent.MODEL_RESET, onModelReset);
-		this.eventDispatcher.addEventListener(EditorEvent.MODEL_LOADED, onModelLoaded);
 		this.eventDispatcher.addEventListener(EditorEvent.ANIMATION_CREATED, onAnimationCreated);
 		this.eventDispatcher.addEventListener(EditorEvent.ANIMATION_SELECTED, onAnimationCreated);
 		this.eventDispatcher.addEventListener(EditorEvent.FRAME_ADDED, onFrameAdded);
@@ -60,7 +59,7 @@ class AnimationEditorUI extends VBox
 		this.deleteFrame.onClick = onDeleteFrameClicked;
 		this.flipXCheckBox.onChange = onFlipXChanged;
 		this.flipYCheckBox.onChange = onFlipYChanged;
-		this.loopedCheckBox.onChange = onLoopedChanged;
+		this.repeatCountStepper.onChange = onRepeatCountChanged;
 		this.frameRateSlider.onChange = onFrameRateChanged;
 		
 		this.menuBar.onMenuSelected = e ->
@@ -78,6 +77,48 @@ class AnimationEditorUI extends VBox
 	////////////
 	// Public //
 	////////////
+
+	public function showErrorDialog(message: String)
+	{
+		Dialogs.messageBox(message, 'Error', MessageBoxType.TYPE_ERROR);
+	}
+
+	public function clearFramesBar()
+	{
+		this.frame_bar.removeAllComponents();
+	}
+
+	public function setSideBarEnabled(enabled: Bool)
+	{
+		this.sideBar.disabled = !enabled;
+	}
+
+	public function setTextupackerLabel(text: String)
+	{
+		this.loadedTexturepacker.text = text;
+	}
+
+	public function loadModelData(model: Model)
+	{
+		animationList.dataSource.clear();
+
+		var first: Animation = null;
+
+		for (name => _ in model.animations)
+		{
+			if (first == null)
+				first = model.animations.get(name);
+
+			animationList.dataSource.add({
+				text: name
+			});
+		}
+
+		if (first != null)
+		{
+			loadSelectedAnimation(animationList.dataSource.get(0).text, first);
+		}
+	}
 
 	public function createFrameButtons(frameSprites: Array<FrameData>)
 	{
@@ -137,34 +178,6 @@ class AnimationEditorUI extends VBox
 		frameList.dataSource.clear();
 	}
 
-	function onModelLoaded(e: EditorEvent<Model>)
-	{
-		loadedTexturepacker.text = e.value.texturePackerJson;
-
-		this.sideBar.disabled = false;
-		
-		animationList.dataSource.clear();
-		
-		var first: Animation = null;
-		
-		for (name => _ in e.value.animations)
-		{
-			if (first == null)
-				first = e.value.animations.get(name);
-
-			animationList.dataSource.add({
-				text: name
-			});
-		}
-		
-		if(first != null)
-		{
-			selectAnimation(animationList.dataSource.get(0).text, first);
-		}
-
-		this.eventDispatcher.dispatchEvent(new EditorEvent(EditorEvent.LOAD_TEXTUREPACKER_FILE, e.value.texturePackerJson));
-	}
-
 	// function onModelUpdate(e: EditorEvent)
 	// {
 	// 	loadedTexturepacker.text = e.model.texturePackerJson;
@@ -198,20 +211,20 @@ class AnimationEditorUI extends VBox
 		var name = e.value.v1;
 		var animation = e.value.v2;
 		
-		selectAnimation(name, animation);
+		loadSelectedAnimation(name, animation);
 	}
 
 	/////////////////////
 	// AnimationEvents //
 	/////////////////////
 
-	function selectAnimation(name: String, animation: Animation)
+	function loadSelectedAnimation(name: String, animation: Animation)
 	{
 		currentAnimation.text = name;
 
 		flipXCheckBox.selected = animation.flipX;
 		flipYCheckBox.selected = animation.flipY;
-		loopedCheckBox.selected = animation.looped;
+		repeatCountStepper.value = animation.repeatCount;
 		frameRateSlider.value = animation.frameRate;
 
 		frameList.dataSource.clear();
@@ -222,6 +235,8 @@ class AnimationEditorUI extends VBox
 				text: frame
 			});
 		}
+
+		animationInfo.disabled = false;
 	}
 
 	function loadAnimation()
@@ -362,12 +377,12 @@ class AnimationEditorUI extends VBox
 		this.eventDispatcher.dispatchEvent(new EditorEvent(EditorEvent.CHANGE_FLIP_Y, new Tuple(animationList.selectedItem.text, flipYCheckBox.selected)));
 	}
 
-	function onLoopedChanged(event: UIEvent)
+	function onRepeatCountChanged(event: UIEvent)
 	{
 		if (animationList.selectedItem == null)
 			return;
 		
-		this.eventDispatcher.dispatchEvent(new EditorEvent(EditorEvent.CHANGE_LOOPED, new Tuple(animationList.selectedItem.text, loopedCheckBox.selected)));
+		this.eventDispatcher.dispatchEvent(new EditorEvent(EditorEvent.CHANGE_REPEAT_COUNT, new Tuple(animationList.selectedItem.text, repeatCountStepper.value)));
 	}
 
 	function onFrameRateChanged(event:  UIEvent)

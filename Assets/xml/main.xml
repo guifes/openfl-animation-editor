@@ -29,9 +29,9 @@
                     <label text="Frame Rate: " />
                     <slider id="frameRateSlider" max="60" precision="0" pos="30" /><label text="${Std.string(frameRateSlider.pos)}" />
                 </hbox>
-                <checkbox id="loopedCheckBox" text="Looped"  />
                 <checkbox id="flipXCheckBox" text="Flip X"  />
                 <checkbox id="flipYCheckBox" text="Flip Y"  />
+                <number-stepper id="repeatCountStepper" pos="0" min="-1" />
             </vbox>
             <vbox>
                 <label text="Animations" />

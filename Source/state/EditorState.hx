@@ -24,7 +24,7 @@ class EditorState extends SPState
 		this.eventDispatcher = eventDispatcher;
 		this.ui = ui;
 		this.displaySprite = new SPAnimatedSprite();
-
+		
         this.eventDispatcher.addEventListener(EditorEvent.MODEL_LOADED, onModelLoaded);
 		this.eventDispatcher.addEventListener(EditorEvent.TEXTUREPACKER_UPDATED, onTexturePackerUpdated);
 		this.eventDispatcher.addEventListener(EditorEvent.ANIMATION_UPDATED, onAnimationUpdated);
@@ -48,13 +48,17 @@ class EditorState extends SPState
     function onModelLoaded(e: EditorEvent<Model>)
     {
 		handleTexturePackerFileChange(e.value.texturePackerJson);
+
+		ui.setSideBarEnabled(true);
+		ui.loadModelData(e.value);
     }
 
 	function onAnimationUpdated(e: EditorEvent<Tuple<String, Animation>>)
     {
 		var animation = e.value.v2;
 
-		if (animation.frames.length == 0) {
+		if (animation.frames.length == 0)
+		{
 			displaySprite.visible = false;
 			return;
 		}
@@ -66,9 +70,9 @@ class EditorState extends SPState
 		var animation_data = {
 			frames: animation.frames,
 			frameRate: animation.frameRate,
-			repeatCount: animation.looped ? -1 : 1,
 			flipX: animation.flipX,
-			flipY: animation.flipY
+			flipY: animation.flipY,
+			repeatCount: animation.repeatCount
 		};
 
 		animations.set("current", animation_data);
@@ -91,17 +95,22 @@ class EditorState extends SPState
 
     function handleTexturePackerFileChange(path: String)
     {
-		ui.frame_bar.removeAllComponents();
+		ui.clearFramesBar();
+		ui.setSideBarEnabled(false);
+		ui.setTextupackerLabel(path);
 
 		displaySprite.visible = false;
 
-		try {
-			var frameSprites:Array<FrameData> = loadTexturePackerFile(path);
+		var frameSprites: Array<FrameData>;
 
-			ui.createFrameButtons(frameSprites);
+		try {
+			frameSprites = loadTexturePackerFile(path);
 		} catch (e) {
-			trace(e);
+			ui.showErrorDialog(e.message);
+			return;
 		}
+
+		ui.createFrameButtons(frameSprites);
     }
 
 	function loadTexturePackerFile(path: String)
